@@ -1,0 +1,190 @@
+//Name: Isfandyar Virani  &  Riyanson Alfred
+//ID: 7751854 & 7810835  
+//Course: ITI 1121 Section A
+//Assignment: 4
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+public class LinkedDictionary implements Map<String, Token> {
+
+    private static class Elem {
+
+        private String key;
+        private Token value;
+        private Elem next;
+
+        private Elem(String key, Token value, Elem next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+        
+        public void setNextElem(Elem next)
+        {
+         this.next = next;  
+        }
+
+        
+        public String toString() {
+            return "{key=" + key + ",value=" + value + "}";
+        }
+    }
+
+    private Elem head = new Elem (null, null, null);
+    
+    
+
+    public LinkedDictionary() {
+
+    }
+
+    
+    public void put(String key, Token value) {                                                           //put method      
+       
+ 
+        if (key == null || value == null) {
+            throw new NullPointerException("key or value is null");
+        }
+        
+      head.next = new Elem (key, value, head.next);     
+    }//end put method
+
+    
+    
+    
+    
+    
+    
+    public boolean contains(String key) {                                       //contains method
+   
+      
+      if (key == null) {
+            throw new NullPointerException("key is null");
+        }
+        
+        boolean found = false;
+        Elem p = head;
+        while (p.next != null && !found){
+          p = p.next; 
+          if (key.equals(p.key)){
+            found = true;
+          } 
+        }
+        
+      
+   return found;   
+    }//end contain method
+
+    
+    
+    
+    
+    
+    
+    public Token get(String key) {                                                        //get method
+      
+
+        if (key == null) {
+            throw new NullPointerException("key is null");
+        }
+        
+        
+        if (contains(key) == false) {
+          throw new NoSuchElementException("key not found: " + key);
+        }
+        
+        Elem p = head;
+        Token temp = null;
+      A:  while (p.next != null){
+          p = p.next; 
+          if (key.equals(p.key)){  
+            break A;
+          }
+        }
+        
+     return p.value;    
+        
+
+    }//end get method
+
+    
+    
+    
+    
+    
+    
+    
+    public void replace(String key, Token value)  {                                        //replace method
+          
+
+        if (key == null || value == null) {
+            throw new NullPointerException("key or value is null");
+        }
+        
+         if (contains(key) == false) {
+          throw new NoSuchElementException("key not found: " + key);
+        }
+         
+         Elem p = head;
+        boolean found = false;
+        
+        while (p.next != null && !found){
+          p = p.next; 
+          if (key == p.key){
+            found = true;
+          }
+        }
+        
+        p.key = key;
+        p.value = value;
+        
+    }//end replace method
+
+    
+    public Token remove(String key) {                                                //removes method
+      
+      if (key == null) {
+            throw new NullPointerException("key or value is null");
+        }
+        
+         if (contains(key) == false) {
+          throw new NoSuchElementException("key not found: " + key);
+        }
+      
+      
+         Elem p = head;
+        boolean found = false;
+        
+        while (p.next != null && !found){ 
+          if (key.equals(p.next.key)){
+            found = true;
+          }
+          
+          if(found != true)
+          {
+           p = p.next; 
+          }
+        }
+              
+      Token temp = p.next.value;
+      p.setNextElem(p.next.next);
+
+      
+      return temp;
+    }//end removes method
+
+    
+    public String toString() {                                          //toString method
+       
+      
+      String s ="";
+      Elem p = head;
+       
+      while (p.next != null){
+          p = p.next; 
+        s = s + p.toString(); 
+        }
+      
+      
+      return s;
+    }// end toString method
+}// end class
